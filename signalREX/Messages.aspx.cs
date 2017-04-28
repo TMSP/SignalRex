@@ -17,11 +17,11 @@ public partial class WebForm1 : System.Web.UI.Page {
         public void SendNotifications() {
             List<string> lst = new List<string>();
             string message = string.Empty;
-            string conStr = "Data Source=192.168.0.3;Initial Catalog=Test; User Id=banco; Password=banco;";
+            string conStr = "Data Source=192.168.0.3;Initial Catalog=maderomesa; User Id=banco; Password=banco;";
             DataTable dt = new DataTable();
 
             using (SqlConnection connection = new SqlConnection(conStr)) {
-                string query = "SELECT [Message] FROM [dbo].[DummyData]";
+                string query = "SELECT [NOMECLI] FROM [dbo].[cliente]";
 
                 using (SqlCommand command = new SqlCommand(query, connection)) {
                     command.Notification = null;
@@ -33,7 +33,7 @@ public partial class WebForm1 : System.Web.UI.Page {
 
                     if (dt.Rows.Count > 0) {
                         for(int i = 0; i < dt.Rows.Count; ++i) {
-                            lst.Add(dt.Rows[i]["Message"].ToString());
+                            lst.Add(dt.Rows[i]["NOMECLI"].ToString());
                         }
                     }
                     

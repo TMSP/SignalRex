@@ -11,7 +11,7 @@ namespace signalREX {
     public class Global : System.Web.HttpApplication {
 
         protected void Application_Start(object sender, EventArgs e) {
-            SqlDependency.Start("Data Source=192.168.0.3;Initial Catalog=Test; User Id=banco; Password=banco;");
+            SqlDependency.Start("Data Source=192.168.0.3;Initial Catalog=maderomesa; User Id=banco; Password=banco;");
         }
 
         protected void Session_Start(object sender, EventArgs e) {
