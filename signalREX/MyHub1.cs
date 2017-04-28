@@ -8,7 +8,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 namespace signalREX {
     [HubName("hubTeste")]
     public class MyHub1 : Hub {
-        public void NotifyAllClients(List<string> msg) {
+        public void NotifyAllClients(List<cliente> msg) {
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<MyHub1>();
             context.Clients.All.displayNotification(msg);
         }
