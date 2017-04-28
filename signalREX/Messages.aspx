@@ -14,10 +14,11 @@
             
             notify.client.displayNotification = function (msg) {
                 console.log("MENSAGEM", msg);
-                var st = "";
-                for (var i = 0; i < msg.length ; i++) {
-                    st += "<br>" + msg[i];
+                var st = "<table><tr><th>Email</th><th>Nome</th><th>Telefone</th></tr>";
+                for (var i = 0; i < msg.length ; i++) {                    
+                    st += "<tr><td>"+msg[i].emailCli+"</td><td>"+msg[i].nomeCli+"</td><td>"+msg[i].telefoneCli+"</td></tr>";
                 }
+                st += "</table>"
                 $("#newData").html(st);
             };
 
