@@ -15,13 +15,22 @@ public partial class WebForm1 : System.Web.UI.Page {
         }
 
         public void SendNotifications() {
+            bool noshow     = false;
+            bool ativo      = false;
+            bool prioridade = false;
+            bool chamado    = false;
+            
             List<cliente> lst = new List<cliente>();
             string message = string.Empty;
             string conStr = "Data Source=192.168.0.3;Initial Catalog=maderomesa; User Id=banco; Password=banco;";
             DataTable dt = new DataTable();
+            
 
             using (SqlConnection connection = new SqlConnection(conStr)) {
-                string query = "SELECT [NOMECLI], [EMAILCLI], [TELEFONECLI] FROM [dbo].[cliente]";
+                string query = "SELECT client.EMAILCLI, client.NOMECLI, client.TELEFONECLI, client.PRIORIDADE, " +
+                    " b.PAGER, b.LUGARES, b.OBSERVACOES, b.NOSHOW, b.CHAMADO, b.ATIVO, b.TEMPOCHEGADA, b.TEMPOSAIDA "+
+                    " FROM [dbo].[cliente] AS client INNER JOIN [dbo].[maderofila] AS b ON client.TELEFONECLI = b.TELEFONECLI ";
+                                     
 
                 using (SqlCommand command = new SqlCommand(query, connection)) {
                     command.Notification = null;
@@ -31,12 +40,25 @@ public partial class WebForm1 : System.Web.UI.Page {
                     SqlDataReader reader = command.ExecuteReader();
                     dt.Load(reader);
 
+                   
+
                     if (dt.Rows.Count > 0) {
-                        for(int i = 0; i < dt.Rows.Count; ++i) {
-                            lst.Add( new cliente {
-                                nomeCli     = dt.Rows[i]["NOMECLI"].ToString(),
-                                emailCli    = dt.Rows[i]["EMAILCLI"].ToString(),
-                                telefoneCli = dt.Rows[i]["TELEFONECLI"].ToString() });
+                        for (int i = 0; i < dt.Rows.Count; ++i) {
+                            cliente cli = new cliente();
+
+                            cli.nomeCli      = dt.Rows[i]["NOMECLI"].ToString();
+                            cli.emailCli     = dt.Rows[i]["EMAILCLI"].ToString();
+                            cli.telefoneCli  = dt.Rows[i]["TELEFONECLI"].ToString();
+                            cli.observacoes  = dt.Rows[i]["OBSERVACOES"].ToString();
+                            cli.noshow       = bool.TryParse(dt.Rows[i]["NOSHOW"].ToString(), out noshow);
+                            cli.ativo        = bool.TryParse(dt.Rows[i]["ATIVO"].ToString(), out ativo);
+                            cli.prioridade   = bool.TryParse(dt.Rows[i]["PRIORIDADE"].ToString(), out prioridade);
+                            cli.chamado      = bool.TryParse(dt.Rows[i]["CHAMADO"].ToString(), out chamado);
+                            cli.lugares      = int.Parse(dt.Rows[i]["LUGARES"].ToString());
+                            cli.tempoChegada = DateTime.Parse(dt.Rows[i]["TEMPOCHEGADA"].ToString());
+                            cli.temposaida   = DateTime.Parse(dt.Rows[i]["TEMPOSAIDA"].ToString());
+
+                            lst.Add(cli);
                         }
                     }
                     
