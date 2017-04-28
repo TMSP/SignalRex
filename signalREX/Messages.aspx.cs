@@ -18,7 +18,7 @@ public partial class WebForm1 : System.Web.UI.Page {
             bool noshow     = false;
             bool ativo      = false;
             bool prioridade = false;
-            bool chamado    = false;
+            bool chamado    = false;            
             
             List<cliente> lst = new List<cliente>();
             string message = string.Empty;
@@ -29,7 +29,7 @@ public partial class WebForm1 : System.Web.UI.Page {
             using (SqlConnection connection = new SqlConnection(conStr)) {
                 string query = "SELECT client.EMAILCLI, client.NOMECLI, client.TELEFONECLI, client.PRIORIDADE, " +
                     " b.PAGER, b.LUGARES, b.OBSERVACOES, b.NOSHOW, b.CHAMADO, b.ATIVO, b.TEMPOCHEGADA, b.TEMPOSAIDA "+
-                    " FROM [dbo].[cliente] AS client INNER JOIN [dbo].[maderofila] AS b ON client.TELEFONECLI = b.TELEFONECLI ";
+                    " FROM [dbo].[cliente] AS client INNER JOIN [dbo].[maderofila] AS b ON client.TELEFONECLI = b.TELEFONECLI WHERE b.ATIVO=1";
                                      
 
                 using (SqlCommand command = new SqlCommand(query, connection)) {
@@ -50,13 +50,14 @@ public partial class WebForm1 : System.Web.UI.Page {
                             cli.emailCli     = dt.Rows[i]["EMAILCLI"].ToString();
                             cli.telefoneCli  = dt.Rows[i]["TELEFONECLI"].ToString();
                             cli.observacoes  = dt.Rows[i]["OBSERVACOES"].ToString();
-                            cli.noshow       = bool.TryParse(dt.Rows[i]["NOSHOW"].ToString(), out noshow);
-                            cli.ativo        = bool.TryParse(dt.Rows[i]["ATIVO"].ToString(), out ativo);
-                            cli.prioridade   = bool.TryParse(dt.Rows[i]["PRIORIDADE"].ToString(), out prioridade);
-                            cli.chamado      = bool.TryParse(dt.Rows[i]["CHAMADO"].ToString(), out chamado);
-                            cli.lugares      = int.Parse(dt.Rows[i]["LUGARES"].ToString());
-                            cli.tempoChegada = DateTime.Parse(dt.Rows[i]["TEMPOCHEGADA"].ToString());
-                            cli.temposaida   = DateTime.Parse(dt.Rows[i]["TEMPOSAIDA"].ToString());
+                            bool.TryParse(dt.Rows[i]["NOSHOW"].ToString(), out cli.noshow);
+                            bool.TryParse(dt.Rows[i]["ATIVO"].ToString(), out cli.ativo);
+                            bool.TryParse(dt.Rows[i]["PRIORIDADE"].ToString(), out cli.prioridade);
+                            bool.TryParse(dt.Rows[i]["CHAMADO"].ToString(), out cli.chamado);
+                            cli.lugares      = int.Parse(dt.Rows[i]["LUGARES"].ToString());                            
+                            DateTime.TryParse(dt.Rows[i]["TEMPOCHEGADA"].ToString(), out cli.tempoChegada);
+                            DateTime.TryParse(dt.Rows[i]["TEMPOSAIDA"].ToString(), out cli.temposaida);                            
+                            cli.pager = dt.Rows[i]["PAGER"].ToString();
 
                             lst.Add(cli);
                         }

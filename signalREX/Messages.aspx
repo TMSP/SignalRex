@@ -14,9 +14,9 @@
             
             notify.client.displayNotification = function (msg) {
                 console.log("MENSAGEM", msg);
-                var st = "<table><tr><th>Email</th><th>Nome</th><th>Telefone</th></tr>";
+                var st = "<table><tr><th>Email</th><th>Nome</th><th>Telefone</th><th>Pax</th><th>Pager</th><th>Ativo</th></tr>";
                 for (var i = 0; i < msg.length ; i++) {                    
-                    st += "<tr><td>"+msg[i].emailCli+"</td><td>"+msg[i].nomeCli+"</td><td>"+msg[i].telefoneCli+"</td></tr>";
+                    st += "<tr><td>" + msg[i].emailCli + "</td><td>" + msg[i].nomeCli + "</td><td>" + msg[i].telefoneCli + "</td><td>" + msg[i].lugares + "</td><td>" + msg[i].pager + "</td><td>" + msg[i].ativo+"</td></tr>";
                 }
                 st += "</table>"
                 $("#newData").html(st);

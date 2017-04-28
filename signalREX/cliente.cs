@@ -14,6 +14,7 @@ namespace signalREX {
         public bool   prioridade;
         public bool   chamado;
         public int    lugares;
+        public string pager;
         public DateTime tempoChegada;
         public DateTime temposaida;
     }
